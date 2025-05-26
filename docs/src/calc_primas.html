@@ -342,21 +342,23 @@
 </span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a>
 </span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a><span class="k">def</span><span class="w"> </span><span class="nf">obtener_nombre_cobertura</span><span class="p">(</span><span class="n">codigo_cobertura</span><span class="p">):</span>
 </span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a><span class="sd">    Convierte código de cobertura a nombre completo</span>
+</span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a><span class="sd">    *Convierte código de cobertura a nombre completo*</span>
 </span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a><span class="sd">    </span>
-</span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a><span class="sd">    Parameters:</span>
-</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a><span class="sd">        codigo_cobertura (str): Código de cobertura (F, FMA, FBPAI, FMABPAI)</span>
-</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a><span class="sd">        </span>
-</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a><span class="sd">    Returns:</span>
-</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a><span class="sd">        str: Nombre completo de la cobertura</span>
-</span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a>    <span class="n">coberturas_map</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="L-259"><a href="#L-259"><span class="linenos">259</span></a>        <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO&quot;</span><span class="p">,</span>
-</span><span id="L-260"><a href="#L-260"><span class="linenos">260</span></a>        <span class="s2">&quot;FMA&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO Y MUERTE ACCIDENTAL&quot;</span><span class="p">,</span>
-</span><span id="L-261"><a href="#L-261"><span class="linenos">261</span></a>        <span class="s2">&quot;FBPAI&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO E INVALIDEZ TOTAL&quot;</span><span class="p">,</span>
-</span><span id="L-262"><a href="#L-262"><span class="linenos">262</span></a>        <span class="s2">&quot;FMABPAI&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO, MUERTE ACCIDENTAL E INVALIDEZ TOTAL&quot;</span>
-</span><span id="L-263"><a href="#L-263"><span class="linenos">263</span></a>    <span class="p">}</span>
-</span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a>    <span class="k">return</span> <span class="n">coberturas_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">codigo_cobertura</span><span class="p">,</span> <span class="n">codigo_cobertura</span><span class="p">)</span>
+</span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a><span class="sd">    **Parameters**:</span>
+</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a>
+</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a><span class="sd">        codigo_cobertura (str): Código de cobertura (F, FMA, FBPAI, FMABPAI)</span>
+</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a><span class="sd">        </span>
+</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a><span class="sd">    **Returns**:</span>
+</span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a>
+</span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a><span class="sd">        str: Nombre completo de la cobertura</span>
+</span><span id="L-259"><a href="#L-259"><span class="linenos">259</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-260"><a href="#L-260"><span class="linenos">260</span></a>    <span class="n">coberturas_map</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="L-261"><a href="#L-261"><span class="linenos">261</span></a>        <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO&quot;</span><span class="p">,</span>
+</span><span id="L-262"><a href="#L-262"><span class="linenos">262</span></a>        <span class="s2">&quot;FMA&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO Y MUERTE ACCIDENTAL&quot;</span><span class="p">,</span>
+</span><span id="L-263"><a href="#L-263"><span class="linenos">263</span></a>        <span class="s2">&quot;FBPAI&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO E INVALIDEZ TOTAL&quot;</span><span class="p">,</span>
+</span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a>        <span class="s2">&quot;FMABPAI&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO, MUERTE ACCIDENTAL E INVALIDEZ TOTAL&quot;</span>
+</span><span id="L-265"><a href="#L-265"><span class="linenos">265</span></a>    <span class="p">}</span>
+</span><span id="L-266"><a href="#L-266"><span class="linenos">266</span></a>    <span class="k">return</span> <span class="n">coberturas_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">codigo_cobertura</span><span class="p">,</span> <span class="n">codigo_cobertura</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -859,31 +861,37 @@ ruta_archivo (str): Ruta (Key) del archivo dentro del bucket S3.
     <a class="headerlink" href="#obtener_nombre_cobertura"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="obtener_nombre_cobertura-249"><a href="#obtener_nombre_cobertura-249"><span class="linenos">249</span></a><span class="k">def</span><span class="w"> </span><span class="nf">obtener_nombre_cobertura</span><span class="p">(</span><span class="n">codigo_cobertura</span><span class="p">):</span>
 </span><span id="obtener_nombre_cobertura-250"><a href="#obtener_nombre_cobertura-250"><span class="linenos">250</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="obtener_nombre_cobertura-251"><a href="#obtener_nombre_cobertura-251"><span class="linenos">251</span></a><span class="sd">    Convierte código de cobertura a nombre completo</span>
+</span><span id="obtener_nombre_cobertura-251"><a href="#obtener_nombre_cobertura-251"><span class="linenos">251</span></a><span class="sd">    *Convierte código de cobertura a nombre completo*</span>
 </span><span id="obtener_nombre_cobertura-252"><a href="#obtener_nombre_cobertura-252"><span class="linenos">252</span></a><span class="sd">    </span>
-</span><span id="obtener_nombre_cobertura-253"><a href="#obtener_nombre_cobertura-253"><span class="linenos">253</span></a><span class="sd">    Parameters:</span>
-</span><span id="obtener_nombre_cobertura-254"><a href="#obtener_nombre_cobertura-254"><span class="linenos">254</span></a><span class="sd">        codigo_cobertura (str): Código de cobertura (F, FMA, FBPAI, FMABPAI)</span>
-</span><span id="obtener_nombre_cobertura-255"><a href="#obtener_nombre_cobertura-255"><span class="linenos">255</span></a><span class="sd">        </span>
-</span><span id="obtener_nombre_cobertura-256"><a href="#obtener_nombre_cobertura-256"><span class="linenos">256</span></a><span class="sd">    Returns:</span>
-</span><span id="obtener_nombre_cobertura-257"><a href="#obtener_nombre_cobertura-257"><span class="linenos">257</span></a><span class="sd">        str: Nombre completo de la cobertura</span>
-</span><span id="obtener_nombre_cobertura-258"><a href="#obtener_nombre_cobertura-258"><span class="linenos">258</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="obtener_nombre_cobertura-259"><a href="#obtener_nombre_cobertura-259"><span class="linenos">259</span></a>    <span class="n">coberturas_map</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="obtener_nombre_cobertura-260"><a href="#obtener_nombre_cobertura-260"><span class="linenos">260</span></a>        <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO&quot;</span><span class="p">,</span>
-</span><span id="obtener_nombre_cobertura-261"><a href="#obtener_nombre_cobertura-261"><span class="linenos">261</span></a>        <span class="s2">&quot;FMA&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO Y MUERTE ACCIDENTAL&quot;</span><span class="p">,</span>
-</span><span id="obtener_nombre_cobertura-262"><a href="#obtener_nombre_cobertura-262"><span class="linenos">262</span></a>        <span class="s2">&quot;FBPAI&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO E INVALIDEZ TOTAL&quot;</span><span class="p">,</span>
-</span><span id="obtener_nombre_cobertura-263"><a href="#obtener_nombre_cobertura-263"><span class="linenos">263</span></a>        <span class="s2">&quot;FMABPAI&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO, MUERTE ACCIDENTAL E INVALIDEZ TOTAL&quot;</span>
-</span><span id="obtener_nombre_cobertura-264"><a href="#obtener_nombre_cobertura-264"><span class="linenos">264</span></a>    <span class="p">}</span>
-</span><span id="obtener_nombre_cobertura-265"><a href="#obtener_nombre_cobertura-265"><span class="linenos">265</span></a>    <span class="k">return</span> <span class="n">coberturas_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">codigo_cobertura</span><span class="p">,</span> <span class="n">codigo_cobertura</span><span class="p">)</span>
+</span><span id="obtener_nombre_cobertura-253"><a href="#obtener_nombre_cobertura-253"><span class="linenos">253</span></a><span class="sd">    **Parameters**:</span>
+</span><span id="obtener_nombre_cobertura-254"><a href="#obtener_nombre_cobertura-254"><span class="linenos">254</span></a>
+</span><span id="obtener_nombre_cobertura-255"><a href="#obtener_nombre_cobertura-255"><span class="linenos">255</span></a><span class="sd">        codigo_cobertura (str): Código de cobertura (F, FMA, FBPAI, FMABPAI)</span>
+</span><span id="obtener_nombre_cobertura-256"><a href="#obtener_nombre_cobertura-256"><span class="linenos">256</span></a><span class="sd">        </span>
+</span><span id="obtener_nombre_cobertura-257"><a href="#obtener_nombre_cobertura-257"><span class="linenos">257</span></a><span class="sd">    **Returns**:</span>
+</span><span id="obtener_nombre_cobertura-258"><a href="#obtener_nombre_cobertura-258"><span class="linenos">258</span></a>
+</span><span id="obtener_nombre_cobertura-259"><a href="#obtener_nombre_cobertura-259"><span class="linenos">259</span></a><span class="sd">        str: Nombre completo de la cobertura</span>
+</span><span id="obtener_nombre_cobertura-260"><a href="#obtener_nombre_cobertura-260"><span class="linenos">260</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="obtener_nombre_cobertura-261"><a href="#obtener_nombre_cobertura-261"><span class="linenos">261</span></a>    <span class="n">coberturas_map</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="obtener_nombre_cobertura-262"><a href="#obtener_nombre_cobertura-262"><span class="linenos">262</span></a>        <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO&quot;</span><span class="p">,</span>
+</span><span id="obtener_nombre_cobertura-263"><a href="#obtener_nombre_cobertura-263"><span class="linenos">263</span></a>        <span class="s2">&quot;FMA&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO Y MUERTE ACCIDENTAL&quot;</span><span class="p">,</span>
+</span><span id="obtener_nombre_cobertura-264"><a href="#obtener_nombre_cobertura-264"><span class="linenos">264</span></a>        <span class="s2">&quot;FBPAI&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO E INVALIDEZ TOTAL&quot;</span><span class="p">,</span>
+</span><span id="obtener_nombre_cobertura-265"><a href="#obtener_nombre_cobertura-265"><span class="linenos">265</span></a>        <span class="s2">&quot;FMABPAI&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO, MUERTE ACCIDENTAL E INVALIDEZ TOTAL&quot;</span>
+</span><span id="obtener_nombre_cobertura-266"><a href="#obtener_nombre_cobertura-266"><span class="linenos">266</span></a>    <span class="p">}</span>
+</span><span id="obtener_nombre_cobertura-267"><a href="#obtener_nombre_cobertura-267"><span class="linenos">267</span></a>    <span class="k">return</span> <span class="n">coberturas_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">codigo_cobertura</span><span class="p">,</span> <span class="n">codigo_cobertura</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Convierte código de cobertura a nombre completo</p>
+            <div class="docstring"><p><em>Convierte código de cobertura a nombre completo</em></p>
 
-<p>Parameters:
-    codigo_cobertura (str): Código de cobertura (F, FMA, FBPAI, FMABPAI)</p>
+<p><strong>Parameters</strong>:</p>
 
-<p>Returns:
-    str: Nombre completo de la cobertura</p>
+<pre><code>codigo_cobertura (str): Código de cobertura (F, FMA, FBPAI, FMABPAI)
+</code></pre>
+
+<p><strong>Returns</strong>:</p>
+
+<pre><code>str: Nombre completo de la cobertura
+</code></pre>
 </div>
 
 

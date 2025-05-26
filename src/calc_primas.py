@@ -247,12 +247,14 @@ def obtener_descuento_comision(comision):
 
 def obtener_nombre_cobertura(codigo_cobertura):
     """
-    Convierte código de cobertura a nombre completo
+    *Convierte código de cobertura a nombre completo*
     
-    Parameters:
+    **Parameters**:
+
         codigo_cobertura (str): Código de cobertura (F, FMA, FBPAI, FMABPAI)
         
-    Returns:
+    **Returns**:
+
         str: Nombre completo de la cobertura
     """
     coberturas_map = {
