@@ -54,6 +54,18 @@
             <li>
                     <a class="function" href="#obtener_base_historico">obtener_base_historico</a>
             </li>
+            <li>
+                    <a class="function" href="#obtener_nombre_mes">obtener_nombre_mes</a>
+            </li>
+            <li>
+                    <a class="function" href="#obtener_parametros_forma_pago">obtener_parametros_forma_pago</a>
+            </li>
+            <li>
+                    <a class="function" href="#obtener_descuento_comision">obtener_descuento_comision</a>
+            </li>
+            <li>
+                    <a class="function" href="#obtener_nombre_cobertura">obtener_nombre_cobertura</a>
+            </li>
     </ul>
 
 
@@ -280,6 +292,71 @@
 </span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 </span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error al obtener la base de datos de historico: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a>        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a>    
+</span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a>
+</span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a><span class="k">def</span><span class="w"> </span><span class="nf">obtener_nombre_mes</span><span class="p">(</span><span class="n">fecha</span><span class="p">):</span>
+</span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a><span class="sd">    *Función que convierte fecha a nombre del mes en español*</span>
+</span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a><span class="sd">    </span>
+</span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a><span class="sd">    **Parameters**:</span>
+</span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a><span class="sd">        </span>
+</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a><span class="sd">        fecha: Fecha en formato datetime o string</span>
+</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a><span class="sd">        </span>
+</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a><span class="sd">    **Returns**:</span>
+</span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a><span class="sd">        </span>
+</span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a><span class="sd">        str: Nombre del mes en español</span>
+</span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a>    <span class="n">mes_numero</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">fecha</span><span class="p">)</span><span class="o">.</span><span class="n">month</span>
+</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a>    <span class="k">return</span> <span class="n">MESES</span><span class="p">[</span><span class="n">mes_numero</span><span class="p">]</span>
+</span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a>
+</span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a>
+</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a><span class="k">def</span><span class="w"> </span><span class="nf">obtener_parametros_forma_pago</span><span class="p">(</span><span class="n">forma_pago</span><span class="p">):</span>
+</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a><span class="sd">    *Función que obtiene RPF y número de recibos según forma de pago*</span>
+</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a><span class="sd">    </span>
+</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a><span class="sd">    **Parameters**:</span>
+</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a><span class="sd">        </span>
+</span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a><span class="sd">        forma_pago (str): Forma de pago (Anual, Semestral, Trimestral, Mensual)</span>
+</span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a><span class="sd">        </span>
+</span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a><span class="sd">    **Returns**:</span>
+</span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a><span class="sd">        </span>
+</span><span id="L-228"><a href="#L-228"><span class="linenos">228</span></a><span class="sd">        dict: Diccionario con &#39;rpf&#39; y &#39;num_recibos&#39;</span>
+</span><span id="L-229"><a href="#L-229"><span class="linenos">229</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-230"><a href="#L-230"><span class="linenos">230</span></a>    <span class="k">return</span> <span class="n">RECARGOS_FORMA_PAGO</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">forma_pago</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">RECARGOS_FORMA_PAGO</span><span class="p">[</span><span class="s2">&quot;anual&quot;</span><span class="p">])</span>
+</span><span id="L-231"><a href="#L-231"><span class="linenos">231</span></a>
+</span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a>
+</span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a><span class="k">def</span><span class="w"> </span><span class="nf">obtener_descuento_comision</span><span class="p">(</span><span class="n">comision</span><span class="p">):</span>
+</span><span id="L-234"><a href="#L-234"><span class="linenos">234</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a><span class="sd">    Función que pbtiene descuento según nivel de comisión</span>
+</span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a><span class="sd">    </span>
+</span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a><span class="sd">    **Parameters**:</span>
+</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a>
+</span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a><span class="sd">        comision (float): Nivel de comisión (0.05 a 0.20)</span>
+</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a><span class="sd">        </span>
+</span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a><span class="sd">    **Returns**:</span>
+</span><span id="L-242"><a href="#L-242"><span class="linenos">242</span></a>
+</span><span id="L-243"><a href="#L-243"><span class="linenos">243</span></a><span class="sd">        float: Descuento correspondiente</span>
+</span><span id="L-244"><a href="#L-244"><span class="linenos">244</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-245"><a href="#L-245"><span class="linenos">245</span></a>    <span class="k">return</span> <span class="n">DESCUENTOS_COMISION</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">comision</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+</span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a>
+</span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a>
+</span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a><span class="k">def</span><span class="w"> </span><span class="nf">obtener_nombre_cobertura</span><span class="p">(</span><span class="n">codigo_cobertura</span><span class="p">):</span>
+</span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a><span class="sd">    Convierte código de cobertura a nombre completo</span>
+</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a><span class="sd">    </span>
+</span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a><span class="sd">    Parameters:</span>
+</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a><span class="sd">        codigo_cobertura (str): Código de cobertura (F, FMA, FBPAI, FMABPAI)</span>
+</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a><span class="sd">        </span>
+</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a><span class="sd">    Returns:</span>
+</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a><span class="sd">        str: Nombre completo de la cobertura</span>
+</span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a>    <span class="n">coberturas_map</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="L-259"><a href="#L-259"><span class="linenos">259</span></a>        <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO&quot;</span><span class="p">,</span>
+</span><span id="L-260"><a href="#L-260"><span class="linenos">260</span></a>        <span class="s2">&quot;FMA&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO Y MUERTE ACCIDENTAL&quot;</span><span class="p">,</span>
+</span><span id="L-261"><a href="#L-261"><span class="linenos">261</span></a>        <span class="s2">&quot;FBPAI&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO E INVALIDEZ TOTAL&quot;</span><span class="p">,</span>
+</span><span id="L-262"><a href="#L-262"><span class="linenos">262</span></a>        <span class="s2">&quot;FMABPAI&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO, MUERTE ACCIDENTAL E INVALIDEZ TOTAL&quot;</span>
+</span><span id="L-263"><a href="#L-263"><span class="linenos">263</span></a>    <span class="p">}</span>
+</span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a>    <span class="k">return</span> <span class="n">coberturas_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">codigo_cobertura</span><span class="p">,</span> <span class="n">codigo_cobertura</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -638,6 +715,175 @@ ruta_archivo (str): Ruta (Key) del archivo dentro del bucket S3.
 
 <pre><code>historico (DataFrame): DataFrame con las cotizaciones históricas.
 </code></pre>
+</div>
+
+
+                </section>
+                <section id="obtener_nombre_mes">
+                            <input id="obtener_nombre_mes-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">obtener_nombre_mes</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">fecha</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="obtener_nombre_mes-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#obtener_nombre_mes"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="obtener_nombre_mes-203"><a href="#obtener_nombre_mes-203"><span class="linenos">203</span></a><span class="k">def</span><span class="w"> </span><span class="nf">obtener_nombre_mes</span><span class="p">(</span><span class="n">fecha</span><span class="p">):</span>
+</span><span id="obtener_nombre_mes-204"><a href="#obtener_nombre_mes-204"><span class="linenos">204</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="obtener_nombre_mes-205"><a href="#obtener_nombre_mes-205"><span class="linenos">205</span></a><span class="sd">    *Función que convierte fecha a nombre del mes en español*</span>
+</span><span id="obtener_nombre_mes-206"><a href="#obtener_nombre_mes-206"><span class="linenos">206</span></a><span class="sd">    </span>
+</span><span id="obtener_nombre_mes-207"><a href="#obtener_nombre_mes-207"><span class="linenos">207</span></a><span class="sd">    **Parameters**:</span>
+</span><span id="obtener_nombre_mes-208"><a href="#obtener_nombre_mes-208"><span class="linenos">208</span></a><span class="sd">        </span>
+</span><span id="obtener_nombre_mes-209"><a href="#obtener_nombre_mes-209"><span class="linenos">209</span></a><span class="sd">        fecha: Fecha en formato datetime o string</span>
+</span><span id="obtener_nombre_mes-210"><a href="#obtener_nombre_mes-210"><span class="linenos">210</span></a><span class="sd">        </span>
+</span><span id="obtener_nombre_mes-211"><a href="#obtener_nombre_mes-211"><span class="linenos">211</span></a><span class="sd">    **Returns**:</span>
+</span><span id="obtener_nombre_mes-212"><a href="#obtener_nombre_mes-212"><span class="linenos">212</span></a><span class="sd">        </span>
+</span><span id="obtener_nombre_mes-213"><a href="#obtener_nombre_mes-213"><span class="linenos">213</span></a><span class="sd">        str: Nombre del mes en español</span>
+</span><span id="obtener_nombre_mes-214"><a href="#obtener_nombre_mes-214"><span class="linenos">214</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="obtener_nombre_mes-215"><a href="#obtener_nombre_mes-215"><span class="linenos">215</span></a>    <span class="n">mes_numero</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">fecha</span><span class="p">)</span><span class="o">.</span><span class="n">month</span>
+</span><span id="obtener_nombre_mes-216"><a href="#obtener_nombre_mes-216"><span class="linenos">216</span></a>    <span class="k">return</span> <span class="n">MESES</span><span class="p">[</span><span class="n">mes_numero</span><span class="p">]</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p><em>Función que convierte fecha a nombre del mes en español</em></p>
+
+<p><strong>Parameters</strong>:</p>
+
+<pre><code>fecha: Fecha en formato datetime o string
+</code></pre>
+
+<p><strong>Returns</strong>:</p>
+
+<pre><code>str: Nombre del mes en español
+</code></pre>
+</div>
+
+
+                </section>
+                <section id="obtener_parametros_forma_pago">
+                            <input id="obtener_parametros_forma_pago-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">obtener_parametros_forma_pago</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">forma_pago</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="obtener_parametros_forma_pago-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#obtener_parametros_forma_pago"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="obtener_parametros_forma_pago-219"><a href="#obtener_parametros_forma_pago-219"><span class="linenos">219</span></a><span class="k">def</span><span class="w"> </span><span class="nf">obtener_parametros_forma_pago</span><span class="p">(</span><span class="n">forma_pago</span><span class="p">):</span>
+</span><span id="obtener_parametros_forma_pago-220"><a href="#obtener_parametros_forma_pago-220"><span class="linenos">220</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="obtener_parametros_forma_pago-221"><a href="#obtener_parametros_forma_pago-221"><span class="linenos">221</span></a><span class="sd">    *Función que obtiene RPF y número de recibos según forma de pago*</span>
+</span><span id="obtener_parametros_forma_pago-222"><a href="#obtener_parametros_forma_pago-222"><span class="linenos">222</span></a><span class="sd">    </span>
+</span><span id="obtener_parametros_forma_pago-223"><a href="#obtener_parametros_forma_pago-223"><span class="linenos">223</span></a><span class="sd">    **Parameters**:</span>
+</span><span id="obtener_parametros_forma_pago-224"><a href="#obtener_parametros_forma_pago-224"><span class="linenos">224</span></a><span class="sd">        </span>
+</span><span id="obtener_parametros_forma_pago-225"><a href="#obtener_parametros_forma_pago-225"><span class="linenos">225</span></a><span class="sd">        forma_pago (str): Forma de pago (Anual, Semestral, Trimestral, Mensual)</span>
+</span><span id="obtener_parametros_forma_pago-226"><a href="#obtener_parametros_forma_pago-226"><span class="linenos">226</span></a><span class="sd">        </span>
+</span><span id="obtener_parametros_forma_pago-227"><a href="#obtener_parametros_forma_pago-227"><span class="linenos">227</span></a><span class="sd">    **Returns**:</span>
+</span><span id="obtener_parametros_forma_pago-228"><a href="#obtener_parametros_forma_pago-228"><span class="linenos">228</span></a><span class="sd">        </span>
+</span><span id="obtener_parametros_forma_pago-229"><a href="#obtener_parametros_forma_pago-229"><span class="linenos">229</span></a><span class="sd">        dict: Diccionario con &#39;rpf&#39; y &#39;num_recibos&#39;</span>
+</span><span id="obtener_parametros_forma_pago-230"><a href="#obtener_parametros_forma_pago-230"><span class="linenos">230</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="obtener_parametros_forma_pago-231"><a href="#obtener_parametros_forma_pago-231"><span class="linenos">231</span></a>    <span class="k">return</span> <span class="n">RECARGOS_FORMA_PAGO</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">forma_pago</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">RECARGOS_FORMA_PAGO</span><span class="p">[</span><span class="s2">&quot;anual&quot;</span><span class="p">])</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p><em>Función que obtiene RPF y número de recibos según forma de pago</em></p>
+
+<p><strong>Parameters</strong>:</p>
+
+<pre><code>forma_pago (str): Forma de pago (Anual, Semestral, Trimestral, Mensual)
+</code></pre>
+
+<p><strong>Returns</strong>:</p>
+
+<pre><code>dict: Diccionario con 'rpf' y 'num_recibos'
+</code></pre>
+</div>
+
+
+                </section>
+                <section id="obtener_descuento_comision">
+                            <input id="obtener_descuento_comision-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">obtener_descuento_comision</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">comision</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="obtener_descuento_comision-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#obtener_descuento_comision"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="obtener_descuento_comision-234"><a href="#obtener_descuento_comision-234"><span class="linenos">234</span></a><span class="k">def</span><span class="w"> </span><span class="nf">obtener_descuento_comision</span><span class="p">(</span><span class="n">comision</span><span class="p">):</span>
+</span><span id="obtener_descuento_comision-235"><a href="#obtener_descuento_comision-235"><span class="linenos">235</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="obtener_descuento_comision-236"><a href="#obtener_descuento_comision-236"><span class="linenos">236</span></a><span class="sd">    Función que pbtiene descuento según nivel de comisión</span>
+</span><span id="obtener_descuento_comision-237"><a href="#obtener_descuento_comision-237"><span class="linenos">237</span></a><span class="sd">    </span>
+</span><span id="obtener_descuento_comision-238"><a href="#obtener_descuento_comision-238"><span class="linenos">238</span></a><span class="sd">    **Parameters**:</span>
+</span><span id="obtener_descuento_comision-239"><a href="#obtener_descuento_comision-239"><span class="linenos">239</span></a>
+</span><span id="obtener_descuento_comision-240"><a href="#obtener_descuento_comision-240"><span class="linenos">240</span></a><span class="sd">        comision (float): Nivel de comisión (0.05 a 0.20)</span>
+</span><span id="obtener_descuento_comision-241"><a href="#obtener_descuento_comision-241"><span class="linenos">241</span></a><span class="sd">        </span>
+</span><span id="obtener_descuento_comision-242"><a href="#obtener_descuento_comision-242"><span class="linenos">242</span></a><span class="sd">    **Returns**:</span>
+</span><span id="obtener_descuento_comision-243"><a href="#obtener_descuento_comision-243"><span class="linenos">243</span></a>
+</span><span id="obtener_descuento_comision-244"><a href="#obtener_descuento_comision-244"><span class="linenos">244</span></a><span class="sd">        float: Descuento correspondiente</span>
+</span><span id="obtener_descuento_comision-245"><a href="#obtener_descuento_comision-245"><span class="linenos">245</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="obtener_descuento_comision-246"><a href="#obtener_descuento_comision-246"><span class="linenos">246</span></a>    <span class="k">return</span> <span class="n">DESCUENTOS_COMISION</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">comision</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Función que pbtiene descuento según nivel de comisión</p>
+
+<p><strong>Parameters</strong>:</p>
+
+<pre><code>comision (float): Nivel de comisión (0.05 a 0.20)
+</code></pre>
+
+<p><strong>Returns</strong>:</p>
+
+<pre><code>float: Descuento correspondiente
+</code></pre>
+</div>
+
+
+                </section>
+                <section id="obtener_nombre_cobertura">
+                            <input id="obtener_nombre_cobertura-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">obtener_nombre_cobertura</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">codigo_cobertura</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="obtener_nombre_cobertura-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#obtener_nombre_cobertura"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="obtener_nombre_cobertura-249"><a href="#obtener_nombre_cobertura-249"><span class="linenos">249</span></a><span class="k">def</span><span class="w"> </span><span class="nf">obtener_nombre_cobertura</span><span class="p">(</span><span class="n">codigo_cobertura</span><span class="p">):</span>
+</span><span id="obtener_nombre_cobertura-250"><a href="#obtener_nombre_cobertura-250"><span class="linenos">250</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="obtener_nombre_cobertura-251"><a href="#obtener_nombre_cobertura-251"><span class="linenos">251</span></a><span class="sd">    Convierte código de cobertura a nombre completo</span>
+</span><span id="obtener_nombre_cobertura-252"><a href="#obtener_nombre_cobertura-252"><span class="linenos">252</span></a><span class="sd">    </span>
+</span><span id="obtener_nombre_cobertura-253"><a href="#obtener_nombre_cobertura-253"><span class="linenos">253</span></a><span class="sd">    Parameters:</span>
+</span><span id="obtener_nombre_cobertura-254"><a href="#obtener_nombre_cobertura-254"><span class="linenos">254</span></a><span class="sd">        codigo_cobertura (str): Código de cobertura (F, FMA, FBPAI, FMABPAI)</span>
+</span><span id="obtener_nombre_cobertura-255"><a href="#obtener_nombre_cobertura-255"><span class="linenos">255</span></a><span class="sd">        </span>
+</span><span id="obtener_nombre_cobertura-256"><a href="#obtener_nombre_cobertura-256"><span class="linenos">256</span></a><span class="sd">    Returns:</span>
+</span><span id="obtener_nombre_cobertura-257"><a href="#obtener_nombre_cobertura-257"><span class="linenos">257</span></a><span class="sd">        str: Nombre completo de la cobertura</span>
+</span><span id="obtener_nombre_cobertura-258"><a href="#obtener_nombre_cobertura-258"><span class="linenos">258</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="obtener_nombre_cobertura-259"><a href="#obtener_nombre_cobertura-259"><span class="linenos">259</span></a>    <span class="n">coberturas_map</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="obtener_nombre_cobertura-260"><a href="#obtener_nombre_cobertura-260"><span class="linenos">260</span></a>        <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO&quot;</span><span class="p">,</span>
+</span><span id="obtener_nombre_cobertura-261"><a href="#obtener_nombre_cobertura-261"><span class="linenos">261</span></a>        <span class="s2">&quot;FMA&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO Y MUERTE ACCIDENTAL&quot;</span><span class="p">,</span>
+</span><span id="obtener_nombre_cobertura-262"><a href="#obtener_nombre_cobertura-262"><span class="linenos">262</span></a>        <span class="s2">&quot;FBPAI&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO E INVALIDEZ TOTAL&quot;</span><span class="p">,</span>
+</span><span id="obtener_nombre_cobertura-263"><a href="#obtener_nombre_cobertura-263"><span class="linenos">263</span></a>        <span class="s2">&quot;FMABPAI&quot;</span><span class="p">:</span> <span class="s2">&quot;FALLECIMIENTO, MUERTE ACCIDENTAL E INVALIDEZ TOTAL&quot;</span>
+</span><span id="obtener_nombre_cobertura-264"><a href="#obtener_nombre_cobertura-264"><span class="linenos">264</span></a>    <span class="p">}</span>
+</span><span id="obtener_nombre_cobertura-265"><a href="#obtener_nombre_cobertura-265"><span class="linenos">265</span></a>    <span class="k">return</span> <span class="n">coberturas_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">codigo_cobertura</span><span class="p">,</span> <span class="n">codigo_cobertura</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Convierte código de cobertura a nombre completo</p>
+
+<p>Parameters:
+    codigo_cobertura (str): Código de cobertura (F, FMA, FBPAI, FMABPAI)</p>
+
+<p>Returns:
+    str: Nombre completo de la cobertura</p>
 </div>
 
 
