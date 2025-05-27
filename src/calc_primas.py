@@ -6,7 +6,7 @@ Este modulo implementa funciones utilizadas para la cotizacón de primas de segu
 Funciones
 ===========
 """
-
+import numpy as np
 import pandas as pd
 import boto3
 from io import BytesIO
@@ -14,26 +14,36 @@ from datetime import datetime
 from openpyxl import load_workbook
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
+from typing import Any
 
 def calcular_edad(fecha_nac, fecha_ref):
     """
-    *Calcula la edad de una persona a partir de su fecha de nacimiento y una fecha de referencia.*
+    Calcula la edad de una persona a partir de su fecha de nacimiento y una fecha de referencia.
 
-    **Parameters**:
-
+    Parameters:
         fecha_nac (datetime.date): Fecha de nacimiento de la persona.
-
         fecha_ref (datetime.date): Fecha de referencia para el cálculo de la edad.
 
-    **Returns**:
-
+    Returns:
         int: Edad de la persona en años.
     """
-    # Verifica si la fecha de referencia es anterior a la fecha de nacimiento
-    if fecha_ref < fecha_nac:
-        # Si es así, devuelve un valor negativo para indicar un error
-        return -1
-    return fecha_ref.year - fecha_nac.year - ((fecha_ref.month, fecha_ref.day) < (fecha_nac.month, fecha_nac.day))
+    
+    # AGREGAR ESTAS CONVERSIONES AL INICIO
+    try:
+        # Convertir a pandas datetime para manejar numpy.datetime64
+        fecha_nac_conv = pd.to_datetime(fecha_nac)
+        fecha_ref_conv = pd.to_datetime(fecha_ref)
+        
+        # Verifica si la fecha de referencia es anterior a la fecha de nacimiento
+        if fecha_ref_conv < fecha_nac_conv:
+            return -1
+        
+        # Usar las fechas convertidas para acceder a year, month, day
+        return fecha_ref_conv.year - fecha_nac_conv.year - ((fecha_ref_conv.month, fecha_ref_conv.day) < (fecha_nac_conv.month, fecha_nac_conv.day))
+        
+    except Exception as e:
+        print(f"Error calculando edad para {fecha_nac}, {fecha_ref}: {e}")
+        return 0
 
 
 def obtener_lista_nombre_bases(ruta_s3_base_datos:str, nombre_bucket:str) -> list:
@@ -204,63 +214,256 @@ def obtener_nombre_mes(fecha):
     *Función que convierte fecha a nombre del mes en español*
     
     **Parameters**:
-        
+
         fecha: Fecha en formato datetime o string
         
     **Returns**:
-        
+
         str: Nombre del mes en español
     """
+    
+    MESES = {
+    1: "Enero", 2: "Febrero", 3: "Marzo", 4: "Abril",
+    5: "Mayo", 6: "Junio", 7: "Julio", 8: "Agosto", 
+    9: "Septiembre", 10: "Octubre", 11: "Noviembre", 12: "Diciembre"
+    }
+
     mes_numero = pd.to_datetime(fecha).month
     return MESES[mes_numero]
 
 
 def obtener_parametros_forma_pago(forma_pago):
     """
-    *Función que obtiene RPF y número de recibos según forma de pago*
+    Obtiene Recargo por Pago Fraccionado (RPF) y número de recibos según forma de pago
     
-    **Parameters**:
-        
+    Parameters:
         forma_pago (str): Forma de pago (Anual, Semestral, Trimestral, Mensual)
         
-    **Returns**:
-        
+    Returns:
         dict: Diccionario con 'rpf' y 'num_recibos'
     """
-    return RECARGOS_FORMA_PAGO.get(forma_pago.lower(), RECARGOS_FORMA_PAGO["anual"])
+    RECARGOS_FORMA_PAGO = {
+        "anual": {"rpf": 0.0, "num_recibos": 1},
+        "semestral": {"rpf": 0.037, "num_recibos": 2},
+        "trimestral": {"rpf": 0.055, "num_recibos": 4},
+        "mensual": {"rpf": 0.065, "num_recibos": 12}
+    }
+    
+    try:
+        forma_pago_clean = forma_pago.strip().lower()
+        
+        if forma_pago_clean in RECARGOS_FORMA_PAGO:
+            resultado = RECARGOS_FORMA_PAGO[forma_pago_clean]
+            return resultado
+        else:
+            return {"rpf": 0.0, "num_recibos": 1}
+            
+    except Exception as e:
+        return {"rpf": 0.0, "num_recibos": 1}
 
 
 def obtener_descuento_comision(comision):
     """
-    Función que pbtiene descuento según nivel de comisión
+    Obtiene descuento según nivel de comisión
     
-    **Parameters**:
-
+    Parameters:
+    
         comision (float): Nivel de comisión (0.05 a 0.20)
         
-    **Returns**:
-
+    Returns:
+        
         float: Descuento correspondiente
     """
-    return DESCUENTOS_COMISION.get(comision, 0.0)
+    try:
+
+        DESCUENTOS_COMISION = {
+        0.20: 0.00, 0.19: 0.02, 0.18: 0.03, 0.17: 0.04, 0.16: 0.06,
+        0.15: 0.07, 0.14: 0.09, 0.13: 0.10, 0.12: 0.12, 0.11: 0.13,
+        0.10: 0.15, 0.09: 0.16, 0.08: 0.18, 0.07: 0.19, 0.06: 0.21, 0.05: 0.22
+        }
+        return DESCUENTOS_COMISION[comision]
+    
+    except Exception as e:
+        print(f"Error al obtener el descuento de comisión: {e}")
+        return 0.0
 
 
 def obtener_nombre_cobertura(codigo_cobertura):
     """
-    *Convierte código de cobertura a nombre completo*
+    Convierte código de cobertura a nombre completo
     
-    **Parameters**:
-
+    Parameters:
         codigo_cobertura (str): Código de cobertura (F, FMA, FBPAI, FMABPAI)
         
-    **Returns**:
-
+    Returns:
         str: Nombre completo de la cobertura
     """
-    coberturas_map = {
-        "F": "FALLECIMIENTO",
-        "FMA": "FALLECIMIENTO Y MUERTE ACCIDENTAL",
-        "FBPAI": "FALLECIMIENTO E INVALIDEZ TOTAL",
-        "FMABPAI": "FALLECIMIENTO, MUERTE ACCIDENTAL E INVALIDEZ TOTAL"
-    }
-    return coberturas_map.get(codigo_cobertura, codigo_cobertura)
+    try:
+        coberturas_map = {
+            "F": "FALLECIMIENTO",
+            "FMA": "FALLECIMIENTO Y MUERTE ACCIDENTAL",
+            "FBPAI": "FALLECIMIENTO E INVALIDEZ TOTAL",
+            "FMABPAI": "FALLECIMIENTO, MUERTE ACCIDENTAL E INVALIDEZ TOTAL"
+        }
+        return coberturas_map.get(codigo_cobertura, codigo_cobertura)
+    
+    except Exception as e:
+        print(f"Error al obtener el nombre de la cobertura: {e}")
+        return codigo_cobertura
+    
+
+def generar_memoria_calculo(contratante:str, fecha_corte:np.datetime64, df_parametros: pd.DataFrame, df_calculo: pd.DataFrame,
+                            df_cuotas:pd.DataFrame, descuento: float, rpf: float)-> pd.DataFrame:
+    """
+    *Función que genera la memoria de cálculo para la cotización*
+    
+    **Parameters**:
+    
+        df_parametros (DataFrame): DataFrame con datos de cálculo
+        
+        df_calculo (DataFrame): DataFrame con datos de asegurados y edades
+        
+        df_emisiones (DataFrame): DataFrame con datos de emisiones
+        
+        df_cuotas (DataFrame): DataFrame con datos de cuotas
+        
+        ticket (int): Número de ticket de la cotización
+    
+    **Returns**:
+    
+        DataFrame: DataFrame con la memoria de cálculo
+    """
+    try:
+
+        df_contratante = df_parametros[df_parametros['Contratante'] == contratante]
+        df_calculo_copy = df_calculo.copy()
+        df_calculo_copy["Edad"] = df_calculo_copy["Fecha de Nacimiento"].apply(lambda x: calcular_edad(x, fecha_corte))
+
+
+
+        if df_contratante["Coberturas"].values[0] == "F":
+            df_calculo_copy = df_calculo_copy.merge(df_cuotas[["Edad","Fallecimiento"]], on="Edad", how="left")
+            df_calculo_copy["Fallecimiento"] = df_calculo_copy["Fallecimiento"]*(1-descuento)*(1+rpf)*df_contratante["SumaAsegurada"].values[0]/1000
+        elif df_contratante["Coberturas"].values[0] == "FMA":
+            df_calculo_copy = df_calculo_copy.merge(df_cuotas[["Edad","Fallecimiento","MA"]], on="Edad", how="left")
+            df_calculo_copy["Fallecimiento"] = df_calculo_copy["Fallecimiento"]*(1-descuento)*(1+rpf)*df_contratante["SumaAsegurada"].values[0]/1000
+            df_calculo_copy["MA"] = df_calculo_copy["MA"]*(1-descuento)*(1+rpf)*df_contratante["SumaAsegurada"].values[0]/1000
+        elif df_contratante["Coberturas"].values[0] == "FBPAI":
+            df_calculo_copy = df_calculo_copy.merge(df_cuotas[["Edad","Fallecimiento","BPAI"]], on="Edad", how="left")
+            df_calculo_copy["Fallecimiento"] = df_calculo_copy["Fallecimiento"]*(1-descuento)*(1+rpf)*df_contratante["SumaAsegurada"].values[0]/1000
+            df_calculo_copy["BPAI"] = df_calculo_copy["BPAI"]*(1-descuento)*(1+rpf)*df_contratante["SumaAsegurada"].values[0]/1000
+        elif df_contratante["Coberturas"].values[0] == "FMABPAI":
+            df_calculo_copy = df_calculo_copy.merge(df_cuotas, on="Edad", how="left")
+            df_calculo_copy["Fallecimiento"] = df_calculo_copy["Fallecimiento"]*(1-descuento)*(1+rpf)*df_contratante["SumaAsegurada"].values[0]/1000
+            df_calculo_copy["MA"] = df_calculo_copy["MA"]*(1-descuento)*(1+rpf)*df_contratante["SumaAsegurada"].values[0]/1000
+            df_calculo_copy["BPAI"] = df_calculo_copy["BPAI"]*(1-descuento)*(1+rpf)*df_contratante["SumaAsegurada"].values[0]/1000
+
+        return df_calculo_copy
+    
+    except Exception as e:
+        print(f"Error al generar la memoria de cálculo: {e}")
+        return pd.DataFrame()
+
+
+def creacion_cotizacion_dict(df_parametros: pd.DataFrame, contratante:str, ticket:int, df_calculo:pd.DataFrame,
+                             df_emisiones:pd.DataFrame, df_cuotas:pd.DataFrame)-> dict:
+    """
+    *Función que crea un diccionario con los datos de la cotización*
+    
+    **Parameters**:
+    
+        df_parametros (DataFrame): DataFrame con datos de cálculo
+        
+        contratante (str): Nombre del contratante
+
+        ticket (int): Número de ticket de la cotización
+        
+        df_calculo (DataFrame): DataFrame con datos de asegurados y edades
+
+        df_emisiones (DataFrame): DataFrame con datos de emisiones
+
+        df_cuotas (DataFrame): DataFrame con datos de cuotas
+        
+    
+    **Returns**:
+    
+        dict: Diccionario con los datos de la cotización
+    """
+    try:
+    
+        # Para rellenar más facilmente el diccionario
+        df_contratante = df_parametros[df_parametros["Contratante"] == contratante]
+
+        # Creamos una copia del DataFrame de cálculo para evitar modificar el original
+        df_calculo_copy = df_calculo.copy()
+
+        # Para crear la edad promedio de los asegurados
+        fecha_corte = df_contratante["Inicio"].values[0]
+        df_calculo_copy["Edad"] = df_calculo_copy["Fecha de Nacimiento"].apply(lambda x: calcular_edad(x, fecha_corte))
+
+        # Recargo por pago fraccionado y número de recibos
+        forma_pago = df_contratante["FormaPago"].values[0]
+        _ = obtener_parametros_forma_pago(forma_pago)
+        rpf = _["rpf"]
+        num_recibos = _["num_recibos"]
+
+        # Comisión y descuento
+        comision = df_contratante["Comision"].values[0]
+        descuento = obtener_descuento_comision(comision)
+
+        # Memoria de cálculo
+        memoria_calculo = generar_memoria_calculo(contratante, fecha_corte, df_parametros, df_calculo,
+                            df_cuotas, descuento, rpf)
+        
+        # Primas
+        prima = memoria_calculo[memoria_calculo.columns[3:]].sum().sum()
+
+        cotizacion_dict = {
+            "Contratante": [contratante],
+            "Coberturas": [df_contratante["Coberturas"].values[0]],
+            "SumaAsegurada": [df_contratante["SumaAsegurada"].values[0]],
+            "Administracion": [df_contratante["Administracion"].values[0]],
+            "Agente": [df_contratante["Agente"].values[0]],
+            "Comision": [df_contratante["Comision"].values[0]],
+            "FormaPago": [df_contratante["FormaPago"].values[0]],
+            "Inicio": [df_contratante["Inicio"].values[0]],
+            "Fin": [df_contratante["Fin"].values[0]],
+            "Renovacion": [df_contratante["Renovacion"].values[0]],
+            "Poliza": [df_contratante["Poliza"].values[0]],
+            "Ticket": [ticket],
+            "Oficina": [df_contratante["Oficina"].values[0]],
+            "RPF": [rpf],
+            "NumRecibos": [num_recibos],
+            "Comision": [comision],
+            "Descuento": [descuento],
+            "Prima": [],
+            "EdadPromedio": [df_calculo_copy["Edad"].mean()],
+            "SAMI": [df_contratante["SumaAsegurada"].values[0]],
+            "Asegurados": [df_calculo_copy["Edad"].count()],
+            "Mes": [obtener_nombre_mes(df_contratante["Inicio"].values[0])],
+            "Evento": []
+        }
+
+        if df_contratante["Renovacion"].values[0] == "Si":
+            siniestralidad = df_emisiones.loc[df_emisiones["Poliza"] == df_contratante["Poliza"].values[0], "Siniestralidad"].values[0]
+            
+            if siniestralidad < 0.50:
+                cotizacion_dict["Prima"].append(prima)
+                cotizacion_dict["Evento"].append("na")
+            else:
+                cotizacion_dict["Prima"].append("La siniestralidad está desviada, consulte a un suscriptor")
+                cotizacion_dict["Evento"].append("Fuera de política")
+                prima = "La siniestralidad está desviada, consulte a un suscriptor"
+            
+        else:
+            cotizacion_dict["Prima"].append(prima)
+            cotizacion_dict["Evento"].append("na")            
+            
+
+
+        return cotizacion_dict
+    
+    except Exception as e:
+        print(f"Error al crear el diccionario de cotización: {e}")
+        return {}
+    
