@@ -1,8 +1,8 @@
 # Arquitectura de datos
 Integrantes:
-- **Rodrigo Alejandro Huerta Cruz** - [rhuertac98]
-- **Daniel Michell Pérez Ruiz** - [jorge-luis-98]
-- **Gerardo Rocha Benigno** - [jorge-luis-98]
+- **Rodrigo Alejandro Huerta Cruz** 
+- **Daniel Michell Pérez Ruiz** - 
+- **Gerardo Rocha Benigno** - 
 
 # Seguros del Valle - CORE: Automatización Proceso de Suscripción Pólizas Experiencia Global Vida Grupo
 ![logo Del Valle](logo_SegurosDelValle.png)
