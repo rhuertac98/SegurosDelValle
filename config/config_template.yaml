@@ -1,0 +1,45 @@
+aws:
+  access_key_id: "acces_key_id"
+  secret_access_key: "secret_access_key"
+  region: "region"
+
+s3:
+  bucket_name: "nombre_del_bucket"
+  prefix_pdf: "prefijo_pdf/"
+
+paths:
+# Rutas para pipeline PDF
+  dict_path: "ruta a json en s3"
+  pdf_output_path: "ruta a pdf en s3"
+  logo_principal: "ruta de logo principal"
+  logo_secundario: "ruta del logo secundario"
+
+# Rutas para pipeline Sagemaker (no se usan)
+  calculo_path: ""
+  parametros_path: ""
+  cuotas_path: ""
+  emisiones_path: ""
+  historico_path: ""
+  dict_output_path: ""
+  memoria_calculo_output_path: ""
+
+# Configuración de Email
+email:
+  smtp_server: "smtp.gmail.com"
+  smtp_port: 587
+  sender_address: "mail@gmail.com"
+  sender_password: "contraseña 16 digitos"
+
+# Usuarios autorizados
+users:
+  admin:
+    password: "admin123"
+  usuario1:
+    password: "password1"
+  demo:
+    password: "demo123"
+
+# Configuración de la aplicación
+app:
+  title: "Core: Sistema de Información de Seguros del Valle"
+  icon: "📄"
