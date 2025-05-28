@@ -4,8 +4,23 @@ import plotly.graph_objects as go
 import boto3
 import io
 from io import BytesIO
+import yaml
+
+# Cargar configuración
+with open('config/config.yaml', 'r') as f:
+    config = yaml.safe_load(f)
 
 
+# Configurar S3
+s3 = boto3.client(
+    's3',
+    aws_access_key_id=config['aws']['access_key_id'],
+    aws_secret_access_key=config['aws']['secret_access_key']
+)
+
+# Variables de configuración
+bucket_name = config['s3']['bucket_name']
+ruta_dashboard = config['paths']['dashborad_path']
 
 # Configurar Streamlit
 st.set_page_config(
@@ -21,14 +36,14 @@ st.title("📊 Dashboard CORE")
 def load_data():
     #df = pd.read_csv("data_streamlit.csv")
     # Parámetros
-    bucket_name = 'itam-analytics-danielmichell'
-    s3_key = 'coco/master/historico/fecha=2025-05-27/cotizaciones.csv'  # path relativo en S3
+    #bucket_name = 'itam-analytics-danielmichell'
+    #s3_key = 'coco/master/historico/fecha=2025-05-27/cotizaciones.csv'  # path relativo en S3
 
     # Cliente de S3
-    s3 = boto3.client('s3')
+    #s3 = boto3.client('s3')
 
     #Descargar archivo a memoria (usando BytesIO)
-    response = s3.get_object(Bucket=bucket_name, Key=s3_key)
+    response = s3.get_object(Bucket=bucket_name, Key=ruta_dashboard)
     df = pd.read_csv(io.BytesIO(response['Body'].read()))
     df['Fecha de Inicio'] = pd.to_datetime(df['Fecha de Inicio'], errors='coerce')
     if 'Fecha de Fin' in df.columns:
@@ -98,11 +113,8 @@ with tabs[0]:
         x=group_office.values,
         y=group_office.index,
         orientation='h',
-        #marker=dict(color='rgba(0, 102, 204, 0.7)', line=dict(width=2, color='rgba(0, 102, 204, 1.0)')),
         marker=dict(color='steelblue', line=dict(width=2, color='royalblue')),
-        #text=[f"{v:,.0f}" for v in group_office.values],
-        #textposition="auto",
-        #textfont=dict(size=100)
+
     ))
     fig.update_layout(
         xaxis_title="Pólizas",
@@ -382,16 +394,6 @@ with tabs[4]:
         st.metric("Prima Promedio", f"${res_a['Prima Promedio']:,.2f}", format_diff(res_a["Prima Promedio"], res_b["Prima Promedio"]))
 
 
-    # fig_comp = go.Figure()
-    # fig_comp.add_trace(go.Bar(name='Período A', x=categorias, y=valores_a, marker_color='blue'))
-    # fig_comp.add_trace(go.Bar(name='Período B', x=categorias, y=valores_b, marker_color='orange'))
-
-    #fig_comp.update_layout(barmode='group', title="Comparación de Períodos", height=400)
-    #st.plotly_chart(fig_comp, use_container_width=True)
-
-
-
-
 # 📥 Descargar datos filtrados
 st.subheader("📂 Exportar Datos Filtrados")
 
@@ -408,9 +410,5 @@ btn = st.download_button(
     file_name="datos_filtrados.xlsx",
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 )
-
-# 📄 Tabla Detallada
-#st.subheader("📋 Vista Detallada de Datos")
-#st.dataframe(df_filtered.sort_values("Fecha de Inicio", ascending=False), use_container_width=True)
 
 st.caption("Dashboard CORE: Cotización y Reporte ❤️.")
