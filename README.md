@@ -41,7 +41,7 @@ Falta de control y trazabilidad: Atrasos en reportes, diferencias de productivid
 - Información completa para emisión sin intervención del suscriptor
 - Proceso streamlined desde cotización hasta emisión
 
-### Resportes Avanzados (Acá complementen)
+### Resportes Avanzados
 - **Reporte de índices de conversión**: Métricas de efectividad de cotizaciones
 - **Reporte de cotizaciones por período**: Análisis temporal de actividad
 - **Visualización gráfica**: Gráficas optimizadas para análisis de datos
